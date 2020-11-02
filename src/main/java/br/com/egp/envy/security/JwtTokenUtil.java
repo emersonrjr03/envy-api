@@ -4,14 +4,13 @@ import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-public class JwtTokenProvider {
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+public class JwtTokenUtil {
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -32,18 +31,27 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
+    public String getUsernameFromJWT(String token) {
+        Claims claims = getClaims(token);
 
         return claims.getSubject();
     }
 
+    public boolean tokenValid(String token) {
+        Claims claims = getClaims(token);
+        if(claims != null) {
+            String username = claims.getSubject();
+            Date expirationDate = claims.getExpiration();
+            Date now = new Date();
+            if(username != null && expirationDate != null && now.before(expirationDate)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
             return true;
         } catch (SignatureException ex) {
             logger.error("Invalid JWT signature");
@@ -57,5 +65,13 @@ public class JwtTokenProvider {
             logger.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+    private Claims getClaims(String token) {
+        try {
+            return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

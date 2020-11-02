@@ -2,7 +2,6 @@ package br.com.egp.envy.security;
 
 import br.com.egp.envy.dto.CredentialsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,12 +17,12 @@ import java.util.ArrayList;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenUtil jwtTokenUtil;
     private AuthenticationManager authenticationManager;
 
 
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
-        this.jwtTokenProvider = jwtTokenProvider;
+    public JwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager) {
+        this.jwtTokenUtil = jwtTokenUtil;
         this.authenticationManager = authenticationManager;
     }
 
@@ -48,7 +47,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws IOException, ServletException {
 
         String username = ((UserPrincipal) authResult.getPrincipal()).getUsername();
-        String token = jwtTokenProvider.generateToken(username);
+        String token = jwtTokenUtil.generateToken(username);
         response.addHeader("Authorization", "Bearer " + token);
     }
 }
