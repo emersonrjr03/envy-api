@@ -1,4 +1,4 @@
-package br.com.egp.envy.model;
+package br.com.egp.envy.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

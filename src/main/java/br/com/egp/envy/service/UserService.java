@@ -1,7 +1,7 @@
 package br.com.egp.envy.service;
 
 import br.com.egp.envy.entity.User;
-import br.com.egp.envy.model.NewUserDTO;
+import br.com.egp.envy.dto.NewUserDTO;
 import br.com.egp.envy.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
