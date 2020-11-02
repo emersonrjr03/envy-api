@@ -27,7 +27,9 @@ public class AuthService {
         }
         String newPass = newPassword();
         user.setPassword(bCryptPasswordEncoder.encode(newPass));
+        userRepository.save(user);
         emailService.sendNewPasswordEmail(user, newPass);
+
     }
 
     private String newPassword() {
