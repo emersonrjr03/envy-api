@@ -45,14 +45,15 @@ public abstract class AbstractEmailService implements EmailService {
 
     protected MimeMessage prepareMimeMessage(User user, String newPass) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setTo(user.getEmail());
         helper.setFrom(sender);
-        helper.setSubject("Solicitacao de nova senha");
+        helper.setSubject("New password request");
         helper.setSentDate(new Date(System.currentTimeMillis()));
-//        helper.setText(htmlFromTemplateNewPassword(user, newPass));
+
         mimeMessage.setContent(htmlFromTemplateNewPassword(user, newPass), "text/html");
+
         return mimeMessage;
     }
 
