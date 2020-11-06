@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtTokenUtil jwtTokenUtil;
 
     private static  final String [] PUBLIC_MATCHERS = {
+            "/healthcheck",
             "/login/**",
             "/register/**",
             "/h2-console/**"
