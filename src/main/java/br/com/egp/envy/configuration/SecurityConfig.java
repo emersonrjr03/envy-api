@@ -50,6 +50,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/auth/forgot/**"
     };
 
+    private static final String[] SWAGGER_UI_PATHS = {
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -69,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+                .antMatchers(SWAGGER_UI_PATHS).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilter(new JwtAuthenticationFilter(jwtTokenUtil, authenticationManager()));
