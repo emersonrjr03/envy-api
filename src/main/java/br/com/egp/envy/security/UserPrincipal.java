@@ -1,6 +1,6 @@
 package br.com.egp.envy.security;
 
-import br.com.egp.envy.entity.User;
+import br.com.egp.envy.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,15 +28,15 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = user.getProfiles().stream().map(profile ->
+    public static UserPrincipal create(UserEntity userEntity) {
+        List<GrantedAuthority> authorities = userEntity.getProfiles().stream().map(profile ->
                 new SimpleGrantedAuthority(profile.getDescricao())
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
-                user.getId(),
-                user.getUsername(),
-                user.getPassword(),
+                userEntity.getId(),
+                userEntity.getUsername(),
+                userEntity.getPassword(),
                 authorities
         );
     }

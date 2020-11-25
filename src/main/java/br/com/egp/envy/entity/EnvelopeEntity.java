@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,8 +14,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-public class Envelope implements Serializable {
+@Entity()
+@Table(name = "ENVELOPE")
+public class EnvelopeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
