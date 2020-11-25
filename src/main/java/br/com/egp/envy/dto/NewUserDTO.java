@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -21,7 +22,6 @@ import java.util.Objects;
 public class NewUserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
     @NotEmpty(message = "Mandatory field")
     @Length(min = 5, max = 120, message = "Name size must be 5 to 120 characters long")
     private String name;
@@ -33,7 +33,7 @@ public class NewUserDTO implements Serializable {
     private String username;
     @NotEmpty(message = "Mandatory field")
     private String password;
-    @NotEmpty(message = "Mandatory field")
+    @NotNull(message = "Mandatory field")
     private Date birthDate;
 
 }
