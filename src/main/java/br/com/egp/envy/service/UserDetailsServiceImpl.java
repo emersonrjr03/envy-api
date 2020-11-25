@@ -1,6 +1,6 @@
 package br.com.egp.envy.service;
 
-import br.com.egp.envy.entity.User;
+import br.com.egp.envy.entity.UserEntity;
 import br.com.egp.envy.repository.UserRepository;
 import br.com.egp.envy.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +21,28 @@ public class  UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail)
             throws UsernameNotFoundException {
         // Let people login with either username or email, used on JWTAuthenticationFilter
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail);
-        if (user == null) {
+        UserEntity userEntity = userRepository.findByUsernameOrEmail(usernameOrEmail);
+        if (userEntity == null) {
             throw new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail);
         }
 
-        return UserPrincipal.create(user);
+        return UserPrincipal.create(userEntity);
     }
 
     // This method can be used by JWTAuthenticationFilter
     @Transactional
     public UserDetails loadUserById(Integer id) {
-        User user = userRepository.findById(id).orElseThrow(
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("User not found with id : " + id)
         );
 
-        return UserPrincipal.create(user);
+        return UserPrincipal.create(userEntity);
     }
 
     @Transactional
-    public User getLoggedUser(){
+    public UserEntity getLoggedUser(){
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User principal = null;
+        UserEntity principal = null;
         if(userPrincipal != null || !"".equals(userPrincipal.getUsername())){
             principal = userRepository.findById(userPrincipal.getId()).orElse(null);
         }

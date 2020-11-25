@@ -3,7 +3,7 @@ package br.com.egp.envy.enums;
 public enum UserProfile {
 
     ADMIN(1, "ROLE_ADMIN"),
-    USER(1, "ROLE_USER");
+    USER(2, "ROLE_USER");
 
     private int cod;
     private String descricao;

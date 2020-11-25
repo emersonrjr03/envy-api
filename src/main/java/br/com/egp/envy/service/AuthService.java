@@ -1,6 +1,8 @@
 package br.com.egp.envy.service;
 
-import br.com.egp.envy.entity.User;
+import br.com.egp.envy.core.exceptions.UnnauthorizedException;
+import br.com.egp.envy.dto.NewPasswordDTO;
+import br.com.egp.envy.entity.UserEntity;
 import br.com.egp.envy.repository.UserRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,23 @@ public class AuthService {
 
     private Random random = new Random();
 
+    public void updatePassword(UserEntity entity, NewPasswordDTO dto) throws UnnauthorizedException {
+        if(!entity.getPassword().equals(bCryptPasswordEncoder.encode(dto.getPreviousPassword()))) {
+            throw new UnnauthorizedException("Credenciais inválidas!");
+        }
+        entity.setPassword(bCryptPasswordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(entity);
+    }
+
     public void sendNewPassword(String email) {
-        User user = userRepository.findByUsernameOrEmail(email);
-        if(user == null) {
+        UserEntity userEntity = userRepository.findByUsernameOrEmail(email);
+        if(userEntity == null) {
             throw new ObjectNotFoundException(email, "User");
         }
         String newPass = newPassword();
-        user.setPassword(bCryptPasswordEncoder.encode(newPass));
-        userRepository.save(user);
-        emailService.sendNewPasswordHtmlEmail(user, newPass);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(newPass));
+        userRepository.save(userEntity);
+        emailService.sendNewPasswordHtmlEmail(userEntity, newPass);
 
     }
 
@@ -50,6 +60,4 @@ public class AuthService {
             return (char) (random.nextInt(26) + 97);
         }
     }
-
-
 }

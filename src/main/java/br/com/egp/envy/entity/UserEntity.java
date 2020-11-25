@@ -14,10 +14,11 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 @Entity
 @Table(name = "USER_ENVY")
-public class User implements Serializable {
+public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue
     private Integer id;
 
     private String name;
@@ -37,13 +38,13 @@ public class User implements Serializable {
     @CollectionTable(name = "USER_PROFILE")
     private Set<Integer> profiles = new HashSet<>();
 
-    public User() {
+    public UserEntity() {
         super();
         addProfile(UserProfile.USER);
     }
 
     @Builder
-    public User(Integer id, String name, String email, String username, String password, Date birthDate) {
+    public UserEntity(Integer id, String name, String email, String username, String password, Date birthDate) {
         this();
         this.id = id;
         this.name = name;

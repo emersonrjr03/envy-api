@@ -1,4 +1,4 @@
-package br.com.egp.envy.entity;
+package br.com.egp.envy.model;
 
 import br.com.egp.envy.enums.UserProfile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -6,18 +6,17 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @EqualsAndHashCode
-@Entity
-@Table(name = "USER_ENVY")
-public class UserEntity implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
     private Integer id;
 
     private String name;
@@ -26,30 +25,22 @@ public class UserEntity implements Serializable {
 
     private String username;
 
-    @JsonIgnore
-    private String password;
-
     private Date birthDate;
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "USER_PROFILE")
     private Set<Integer> profiles = new HashSet<>();
 
-    public UserEntity() {
+    public User() {
         super();
         addProfile(UserProfile.USER);
     }
 
     @Builder
-    public UserEntity(Integer id, String name, String email, String username, String password, Date birthDate) {
+    public User(Integer id, String name, String email, String username, Date birthDate) {
         this();
         this.id = id;
         this.name = name;
         this.email = email;
         this.username = username;
-        this.password = password;
         this.birthDate = birthDate;
     }
     public Set<UserProfile> getProfiles() {

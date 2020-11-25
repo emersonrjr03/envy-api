@@ -1,6 +1,7 @@
 package br.com.egp.envy.resource;
 
 import br.com.egp.envy.dto.EmailDTO;
+import br.com.egp.envy.dto.NewUserDTO;
 import br.com.egp.envy.security.JwtTokenUtil;
 import br.com.egp.envy.security.UserPrincipal;
 import br.com.egp.envy.service.AuthService;
@@ -22,6 +23,8 @@ public class AuthResource {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
     public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
@@ -35,5 +38,10 @@ public class AuthResource {
     public ResponseEntity<Void> forgot(@Valid @RequestBody EmailDTO emailDTO) {
         authService.sendNewPassword(emailDTO.getEmail());
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> registerUser(@Valid @RequestBody NewUserDTO objDto) {
+        return ResponseEntity.ok().body(userService.create(objDto));
     }
 }
