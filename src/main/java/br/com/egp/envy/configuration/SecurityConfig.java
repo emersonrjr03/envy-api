@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/login/**",
             "/h2-console/**",
             "/auth/forgot/**",
-            "/auth/register/**"
+            "/auth/register**"
     };
 
     //endpoints apenas para buscar informacoes que nao precisam de autenticacao,
@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
     private static  final String [] PUBLIC_MATCHERS_POST = {
         "/auth/forgot/**",
-        "/auth/register/**"
+        "/auth/register**"
     };
 
     private static final String[] SWAGGER_UI_PATHS = {
