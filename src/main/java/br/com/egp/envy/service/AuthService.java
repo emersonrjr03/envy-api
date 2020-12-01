@@ -23,7 +23,8 @@ public class AuthService {
     private Random random = new Random();
 
     public void updatePassword(UserEntity entity, NewPasswordDTO dto) throws UnnauthorizedException {
-        if(!entity.getPassword().equals(bCryptPasswordEncoder.encode(dto.getPreviousPassword()))) {
+
+        if(!bCryptPasswordEncoder.matches(dto.getPreviousPassword(), entity.getPassword())) {
             throw new UnnauthorizedException("Credenciais inválidas!");
         }
         entity.setPassword(bCryptPasswordEncoder.encode(dto.getNewPassword()));
