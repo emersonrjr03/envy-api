@@ -4,6 +4,7 @@ import br.com.egp.envy.core.exceptions.NotFoundEntityException;
 import br.com.egp.envy.core.exceptions.UnnauthorizedException;
 import br.com.egp.envy.dto.NewPasswordDTO;
 import br.com.egp.envy.groups.ValidationOnCreate;
+import br.com.egp.envy.groups.ValidationOnUpdate;
 import br.com.egp.envy.model.Envelope;
 import br.com.egp.envy.model.User;
 import br.com.egp.envy.service.EnvelopeService;
@@ -36,7 +37,7 @@ public class EnvelopeResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@Validated(ValidationOnCreate.class) @RequestBody Envelope envelope) {
+    public ResponseEntity<?> update(@Validated(ValidationOnUpdate.class) @RequestBody Envelope envelope) {
         return ResponseEntity.ok().body(service.update(envelope));
     }
 }

@@ -17,16 +17,16 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class Envelope {
-    @NotNull(groups = { ValidationOnUpdate.class })
+    @NotNull(message = "Mandatory Field", groups = { ValidationOnUpdate.class })
     private Integer id;
-    @NotNull(groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
+    @NotNull(message = "Mandatory Field",groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private Integer userId;
     @Size(min = 1, max = 40, groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private String title;
     private Double budget;
-    @Min(value = 0, groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
+    @NotNull(message = "Mandatory Field", groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private Double spent;
-    @NotNull(groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
+    @NotNull(message = "Mandatory Field", groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private EnvelopeType type;
     private Double goalValue;
     private Date dueDate;
