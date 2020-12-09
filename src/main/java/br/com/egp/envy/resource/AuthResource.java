@@ -2,6 +2,7 @@ package br.com.egp.envy.resource;
 
 import br.com.egp.envy.dto.EmailDTO;
 import br.com.egp.envy.dto.NewUserDTO;
+import br.com.egp.envy.exception.UsernameAlreadyExistException;
 import br.com.egp.envy.security.JwtTokenUtil;
 import br.com.egp.envy.security.UserPrincipal;
 import br.com.egp.envy.service.AuthService;
@@ -41,7 +42,7 @@ public class AuthResource {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> registerUser(@Valid @RequestBody NewUserDTO objDto) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody NewUserDTO objDto) throws UsernameAlreadyExistException {
         return ResponseEntity.ok().body(userService.create(objDto));
     }
 }
