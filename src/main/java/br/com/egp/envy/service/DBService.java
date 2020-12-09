@@ -1,10 +1,13 @@
 package br.com.egp.envy.service;
 
 import br.com.egp.envy.entity.EnvelopeEntity;
+import br.com.egp.envy.entity.TransactionEntity;
 import br.com.egp.envy.entity.UserEntity;
 import br.com.egp.envy.enums.EnvelopeType;
+import br.com.egp.envy.enums.TransactionType;
 import br.com.egp.envy.enums.UserProfile;
 import br.com.egp.envy.repository.EnvelopeRepository;
+import br.com.egp.envy.repository.TransactionRepository;
 import br.com.egp.envy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +20,8 @@ import java.sql.Date;
 public class DBService {
     @Autowired
     private EnvelopeRepository envelopeRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -32,14 +37,15 @@ public class DBService {
                 .birthDate(Date.valueOf("2000-10-11"))
                 .build());
 
-        envelopeRepository.save(EnvelopeEntity.builder()
+        EnvelopeEntity e1 = envelopeRepository.save(EnvelopeEntity.builder()
                 .user(entity)
                 .type(EnvelopeType.BUDGET)
                 .title("LAZER")
                 .budget(500.0)
                 .spent(0.0)
                 .build());
-        envelopeRepository.save(EnvelopeEntity.builder()
+
+        EnvelopeEntity e2 = envelopeRepository.save(EnvelopeEntity.builder()
                 .user(entity)
                 .type(EnvelopeType.GOAL)
                 .title("MALDIVAS")
@@ -47,6 +53,15 @@ public class DBService {
                 .goalValue(12500.0)
                 .spent(0.0)
                 .build());
+
+        transactionRepository.save(TransactionEntity.builder()
+                .envelopeEntity(e2)
+                .type(TransactionType.INCOME)
+                .description("Salário")
+                .amount(1200.0)
+                .createdOn(new Date(System.currentTimeMillis()))
+                .build());
+
         envelopeRepository.save(EnvelopeEntity.builder()
                 .user(entity)
                 .type(EnvelopeType.BUDGET)
