@@ -7,6 +7,7 @@ import br.com.egp.envy.repository.EnvelopeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,8 +33,12 @@ public class EnvelopeService {
         return repository.findAll().stream().map(envelopeConverter::marshall).collect(Collectors.toList());
     }
 
-    public Envelope update(Envelope envelope) {
-        EnvelopeEntity entity = repository.save(envelopeConverter.unmarshall(envelope));
+    public Envelope update(Envelope model) {
+        EnvelopeEntity entity = repository.findById(model.getId()).orElse(null);
+        if(entity == null) {
+            throw new EntityNotFoundException("No envelopes were found with the id: " + model.getId());
+        }
+        entity = repository.save(envelopeConverter.unmarshall(model));
         return envelopeConverter.marshall(entity);
     }
 

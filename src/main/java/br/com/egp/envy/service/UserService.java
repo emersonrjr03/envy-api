@@ -5,6 +5,7 @@ import br.com.egp.envy.core.exceptions.UnnauthorizedException;
 import br.com.egp.envy.dto.NewPasswordDTO;
 import br.com.egp.envy.entity.UserEntity;
 import br.com.egp.envy.dto.NewUserDTO;
+import br.com.egp.envy.exception.UsernameAlreadyExistException;
 import br.com.egp.envy.mapper.UserMapper;
 import br.com.egp.envy.model.User;
 import br.com.egp.envy.repository.UserRepository;
@@ -26,7 +27,11 @@ public class UserService {
     @Autowired
     private AuthService authService;
 
-    public User create(NewUserDTO dto){
+    public User create(NewUserDTO dto) throws UsernameAlreadyExistException {
+        UserEntity entity = userRepository.findByUsernameOrEmail(dto.getUsername());
+        if(entity != null) {
+            throw new UsernameAlreadyExistException("The username " + dto.getUsername() + " is already been used!", null, "username");
+        }
         return UserMapper.unmarshall(userRepository.save(fromDTO(dto)));
     }
 
