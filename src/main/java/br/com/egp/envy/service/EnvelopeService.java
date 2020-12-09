@@ -42,8 +42,8 @@ public class EnvelopeService {
         return envelopeConverter.marshall(entity);
     }
 
-    public Object create(Envelope envelope) {
-        EnvelopeEntity entity = repository.save(envelopeConverter.unmarshall(envelope));
+    public Envelope create(Envelope model) {
+        EnvelopeEntity entity = repository.save(envelopeConverter.unmarshall(model));
         return envelopeConverter.marshall(entity);
     }
 }
