@@ -1,12 +1,18 @@
 package br.com.egp.envy.resource;
 
+import br.com.egp.envy.core.exceptions.NotFoundEntityException;
+import br.com.egp.envy.core.exceptions.UnnauthorizedException;
+import br.com.egp.envy.dto.NewPasswordDTO;
+import br.com.egp.envy.groups.ValidationOnCreate;
+import br.com.egp.envy.model.Envelope;
+import br.com.egp.envy.model.User;
 import br.com.egp.envy.service.EnvelopeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/envelope")
@@ -22,5 +28,15 @@ public class EnvelopeResource {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok().body(service.findAll());
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> create(@Validated(ValidationOnCreate.class) @RequestBody Envelope envelope) {
+        return ResponseEntity.ok().body(service.create(envelope));
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<?> update(@Validated(ValidationOnCreate.class) @RequestBody Envelope envelope) {
+        return ResponseEntity.ok().body(service.update(envelope));
     }
 }
