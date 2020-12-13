@@ -18,13 +18,16 @@ public class JwtTokenUtil {
     @Value("${jwt.expiration.in.ms}")
     private Long jwtExpirationInMs;
 
-    public String generateToken(String username) {
+    public String generateToken(UserPrincipal userPrincipal) {
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
+        Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
+        claims.put("id", userPrincipal.getId());
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userPrincipal.getUsername())
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

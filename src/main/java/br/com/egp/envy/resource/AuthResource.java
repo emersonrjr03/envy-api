@@ -30,7 +30,7 @@ public class AuthResource {
     @RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
     public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
         UserPrincipal user = UserService.authenticated();
-        String token = jwtTokenUtil.generateToken(user.getUsername());
+        String token = jwtTokenUtil.generateToken(user);
         response.addHeader("Authorization", "Bearer " + token);
         return ResponseEntity.noContent().build();
     }
