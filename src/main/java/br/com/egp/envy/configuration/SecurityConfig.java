@@ -1,6 +1,5 @@
 package br.com.egp.envy.configuration;
 
-import br.com.egp.envy.security.CorsFilter;
 import br.com.egp.envy.security.JwtAuthenticationFilter;
 import br.com.egp.envy.security.JwtAuthorizationFilter;
 import br.com.egp.envy.security.JwtTokenUtil;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -63,13 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**"
     };
 
-    //created to allow  requests from any origins
-    @Bean
-    CorsFilter corsFilter() {
-        CorsFilter filter = new CorsFilter();
-        return filter;
-    }
-
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
@@ -83,8 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if(Arrays.asList(environment.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
         }
-        http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
-        .csrf().and().cors().disable();
+        http.csrf().and().cors().disable();
         http.authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
