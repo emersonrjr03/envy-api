@@ -18,6 +18,8 @@ public class EnvelopeService {
 
     @Autowired
     private EnvelopeRepository repository;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     private EnvelopeConverter envelopeConverter;
 
@@ -44,6 +46,7 @@ public class EnvelopeService {
     }
 
     public Envelope create(Envelope model) {
+        model.setUserId(userDetailsService.getLoggedUser().getId());
         EnvelopeEntity entity = repository.save(envelopeConverter.unmarshall(model));
         return envelopeConverter.marshall(entity);
     }
