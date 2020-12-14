@@ -10,6 +10,10 @@ import br.com.egp.envy.model.Envelope;
 import br.com.egp.envy.model.User;
 import br.com.egp.envy.service.EnvelopeService;
 import br.com.egp.envy.specification.EnvelopeSpec;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +33,22 @@ public class EnvelopeResource {
         return ResponseEntity.ok().body(service.find(id));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "userId",
+                    value = "Envelope user id",
+                    required = false,
+                    dataType = "number",
+                    paramType = "query"
+            ),
+            @ApiImplicitParam(
+                    name = "title",
+                    value = "Envelope title",
+                    required = false,
+                    dataType = "string",
+                    paramType = "query"
+            )
+    })
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> findAll(EnvelopeSpec spec) {
         return ResponseEntity.ok().body(service.findAll(spec));
