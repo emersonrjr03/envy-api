@@ -16,7 +16,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 @Join(path= "user", alias = "user")
 @And({
-        @Spec(path="id", pathVars="id", spec=Equal.class),
         @Spec(path="user.id", params="userId", spec=Equal.class),
         @Spec(path="title", params="title", spec= LikeIgnoreCase.class)
 })
