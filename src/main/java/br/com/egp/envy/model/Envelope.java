@@ -3,6 +3,7 @@ package br.com.egp.envy.model;
 import br.com.egp.envy.enums.EnvelopeType;
 import br.com.egp.envy.groups.ValidationOnCreate;
 import br.com.egp.envy.groups.ValidationOnUpdate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.validation.constraints.Min;
@@ -29,5 +30,7 @@ public class Envelope {
     @NotNull(message = "Mandatory Field", groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private EnvelopeType type;
     private Double goalValue;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 }

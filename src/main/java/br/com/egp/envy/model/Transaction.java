@@ -5,6 +5,7 @@ import br.com.egp.envy.entity.EnvelopeEntity;
 import br.com.egp.envy.enums.TransactionType;
 import br.com.egp.envy.groups.ValidationOnCreate;
 import br.com.egp.envy.groups.ValidationOnUpdate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Transaction implements Serializable {
     @NotNull(message = "Mandatory Field", groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private Double amount;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Mandatory Field", groups = { ValidationOnCreate.class, ValidationOnUpdate.class })
     private Date createdOn;
 }

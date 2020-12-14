@@ -1,10 +1,14 @@
 package br.com.egp.envy.resource;
 
+import br.com.egp.envy.entity.EnvelopeEntity;
+import br.com.egp.envy.entity.TransactionEntity;
 import br.com.egp.envy.groups.ValidationOnCreate;
 import br.com.egp.envy.groups.ValidationOnUpdate;
 import br.com.egp.envy.model.Transaction;
 import br.com.egp.envy.service.TransactionService;
+import br.com.egp.envy.specification.TransactionSpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +25,8 @@ public class TransactionResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok().body(service.findAll());
+    public ResponseEntity<?> findAll(TransactionSpec spec) {
+        return ResponseEntity.ok().body(service.findAll(spec));
     }
 
     @RequestMapping(method = RequestMethod.POST)

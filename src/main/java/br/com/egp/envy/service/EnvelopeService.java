@@ -5,6 +5,7 @@ import br.com.egp.envy.entity.EnvelopeEntity;
 import br.com.egp.envy.model.Envelope;
 import br.com.egp.envy.repository.EnvelopeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -29,8 +30,8 @@ public class EnvelopeService {
         return envelopeConverter.marshall(obj.orElse(null));
     }
 
-    public List<Envelope> findAll() {
-        return repository.findAll().stream().map(envelopeConverter::marshall).collect(Collectors.toList());
+    public List<Envelope> findAll(Specification<EnvelopeEntity> spec) {
+        return repository.findAll(spec).stream().map(envelopeConverter::marshall).collect(Collectors.toList());
     }
 
     public Envelope update(Envelope model) {

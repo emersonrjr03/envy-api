@@ -3,12 +3,15 @@ package br.com.egp.envy.resource;
 import br.com.egp.envy.core.exceptions.NotFoundEntityException;
 import br.com.egp.envy.core.exceptions.UnnauthorizedException;
 import br.com.egp.envy.dto.NewPasswordDTO;
+import br.com.egp.envy.entity.EnvelopeEntity;
 import br.com.egp.envy.groups.ValidationOnCreate;
 import br.com.egp.envy.groups.ValidationOnUpdate;
 import br.com.egp.envy.model.Envelope;
 import br.com.egp.envy.model.User;
 import br.com.egp.envy.service.EnvelopeService;
+import br.com.egp.envy.specification.EnvelopeSpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +30,8 @@ public class EnvelopeResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok().body(service.findAll());
+    public ResponseEntity<?> findAll(EnvelopeSpec spec) {
+        return ResponseEntity.ok().body(service.findAll(spec));
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -1,10 +1,12 @@
 package br.com.egp.envy.service;
 
 import br.com.egp.envy.converter.TransactionConverter;
+import br.com.egp.envy.entity.EnvelopeEntity;
 import br.com.egp.envy.entity.TransactionEntity;
 import br.com.egp.envy.model.Transaction;
 import br.com.egp.envy.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -29,8 +31,8 @@ public class TransactionService {
         return TransactionConverter.marshall(obj.orElse(null));
     }
 
-    public List<Transaction> findAll() {
-        return repository.findAll().stream().map(TransactionConverter::marshall).collect(Collectors.toList());
+    public List<Transaction> findAll(Specification<TransactionEntity> spec) {
+        return repository.findAll(spec).stream().map(TransactionConverter::marshall).collect(Collectors.toList());
     }
 
     public Transaction update(Transaction model) {

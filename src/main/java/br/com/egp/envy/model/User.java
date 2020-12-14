@@ -1,6 +1,7 @@
 package br.com.egp.envy.model;
 
 import br.com.egp.envy.enums.UserProfile;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class User implements Serializable {
 
     private String username;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
 
     private Set<Integer> profiles = new HashSet<>();
