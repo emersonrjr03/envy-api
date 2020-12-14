@@ -2,6 +2,7 @@ package br.com.egp.envy.service;
 
 import br.com.egp.envy.converter.EnvelopeConverter;
 import br.com.egp.envy.entity.EnvelopeEntity;
+import br.com.egp.envy.entity.UserEntity;
 import br.com.egp.envy.model.Envelope;
 import br.com.egp.envy.repository.EnvelopeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ public class EnvelopeService {
         model.setUserId(userDetailsService.getLoggedUser().getId());
         EnvelopeEntity entity = repository.save(envelopeConverter.unmarshall(model));
         return envelopeConverter.marshall(entity);
+    }
+
+    public List<Envelope> findEnvelopesByUser(UserEntity loggedUser) {
+        return repository.findAllByUser(loggedUser).stream()
+                .map(envelopeConverter::marshall).collect(Collectors.toList());
     }
 }
